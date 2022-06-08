@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CpmPedidos.Domain", "CpmPedidos.Domain\CpmPedidos.Domain.csproj", "{05C2975A-3860-4759-90FF-E359E29D64AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CpmPedidos.Domain", "CpmPedidos.Domain\CpmPedidos.Domain.csproj", "{05C2975A-3860-4759-90FF-E359E29D64AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CpmPedidos.Interface", "CpmPedidos.Interface\CpmPedidos.Interface.csproj", "{7DC4C4FA-8359-46A5-9919-3E4ECC7FC7D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CpmPedidos.Interface", "CpmPedidos.Interface\CpmPedidos.Interface.csproj", "{7DC4C4FA-8359-46A5-9919-3E4ECC7FC7D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CpmPedidos.Repository", "CpmPedidos.Repository\CpmPedidos.Repository.csproj", "{D6070A2B-811C-4867-85C1-8D887731434F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7DC4C4FA-8359-46A5-9919-3E4ECC7FC7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DC4C4FA-8359-46A5-9919-3E4ECC7FC7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DC4C4FA-8359-46A5-9919-3E4ECC7FC7D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6070A2B-811C-4867-85C1-8D887731434F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6070A2B-811C-4867-85C1-8D887731434F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6070A2B-811C-4867-85C1-8D887731434F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6070A2B-811C-4867-85C1-8D887731434F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
