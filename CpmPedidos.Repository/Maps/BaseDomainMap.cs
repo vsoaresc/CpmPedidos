@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CpmPedidos.Repository.Maps
+namespace CpmPedidos.Repository
 {
     public class BaseDomainMap<TDomain> : IEntityTypeConfiguration<TDomain> where TDomain : BaseDomain
     {
@@ -24,6 +24,11 @@ namespace CpmPedidos.Repository.Maps
             {
                 builder.ToTable(_tableName);
             }
+
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).HasColumnName("id").ValueGeneratedOnAdd();
+
+            builder.Property(x => x.CriadoEm).HasColumnName("criado_em").IsRequired();
         }
     }
 }

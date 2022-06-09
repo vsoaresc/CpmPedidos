@@ -13,5 +13,6 @@ namespace CpmPedidos.Domain
         public int IdEndereco { get; set; }
         public virtual Endereco Endereco { get; set; }
         public bool Ativo { get; set; }
+        public virtual List<Pedido> Pedidos { get; set; }
     }
 }

@@ -17,5 +17,8 @@ namespace CpmPedidos.Domain
 
         public int IdCidade { get; set; }
         public virtual Cidade Cidade { get; set; }
+        public virtual Cliente Cliente { get; set; }
+
+
     }
 }
