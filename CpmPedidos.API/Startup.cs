@@ -20,9 +20,9 @@ namespace CpmPedidos.API
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
 
-        public DbConnection DbConnection = new NpgsqlConnection(Configuration.GetConnectionString("App"));
+        public DbConnection DbConnection => new NpgsqlConnection(Configuration.GetConnectionString("App"));
+        public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
         {
