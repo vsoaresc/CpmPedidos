@@ -1,19 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using CpmPedidos.Domain;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using CpmPedidos.Interface;
 
 namespace CpmPedidos.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PedidoController : AppBaseController
+    public class ProdutoController : AppBaseController
     {
-        public PedidoController(IServiceProvider serviceProvider): base(serviceProvider)
+        public ProdutoController(IServiceProvider serviceProvider): base(serviceProvider)
         {
+        }
 
+        [HttpGet]
+        public IEnumerable<Produto> Get()
+        {
+            var rep = (IProdutoRepository)_serviceProvider.GetService(typeof(IProdutoRepository));
+            return rep.Get();
         }
     }
 }
