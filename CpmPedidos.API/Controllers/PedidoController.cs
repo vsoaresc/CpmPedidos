@@ -8,17 +8,12 @@ namespace CpmPedidos.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProdutoController : AppBaseController
+    public class PedidoController : AppBaseController
     {
-        public ProdutoController(IServiceProvider serviceProvider): base(serviceProvider)
+        public PedidoController(IServiceProvider serviceProvider): base(serviceProvider)
         {
         }
 
-        [HttpGet]
-        public IEnumerable<Produto> Get()
-        {
-            var rep = (IProdutoRepository)_serviceProvider.GetService(typeof(IProdutoRepository));
-            return rep.Get();
-        }
+
     }
 }
