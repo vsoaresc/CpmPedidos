@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,10 @@ namespace CpmPedidos.API.Controllers
     public class AppBaseController : ControllerBase
     {
         protected readonly IServiceProvider _serviceProvider;
+        protected T GetService<T>()
+        {
+            return _serviceProvider.GetService<T>();
+        }
         public AppBaseController(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;

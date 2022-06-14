@@ -1,0 +1,67 @@
+﻿using CpmPedidos.Domain;
+using CpmPedidos.Interface;
+using CpmPedidos.Repository;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CpmPedidos.Repository
+{
+    public class CidadeRepository : BaseRepository, ICidadeRepository
+    {
+        public CidadeRepository(ApplicationDbContext dbContext) : base(dbContext)
+        {
+        }
+
+        public dynamic Get()
+        {
+            return DbContext.Cidades
+                .Where(x => x.Ativo)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.Nome,
+                    x.Uf,
+                    x.Ativo
+                })
+                .ToList();
+        }
+
+        public int Criar(CidadeDTO model)
+        {
+            if(model.Id > 0)
+            {
+                return 0;
+            }
+
+            var nomeDuplicado = DbContext.Cidades.Any(x => x.Ativo && x.Nome.ToUpper() == model.Nome.ToUpper());
+            
+            if (nomeDuplicado)
+            {
+                return 0;
+            }
+
+            var entity = new Cidade()
+            {
+                Nome = model.Nome,
+                Uf = model.Uf,
+                Ativo = model.Ativo
+            };
+
+            try
+            {
+                DbContext.Cidades.Add(entity);
+                DbContext.SaveChanges();
+                return entity.Id;
+            }
+            catch (Exception ex )
+            {
+            }
+
+            return 0;
+        }
+    }
+}
