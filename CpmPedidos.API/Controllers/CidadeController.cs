@@ -11,7 +11,7 @@ namespace CpmCidades.API.Controllers
     [Route("[controller]")]
     public class CidadeController : AppBaseController
     {
-        public CidadeController(IServiceProvider serviceProvider): base(serviceProvider)
+        public CidadeController(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
 
@@ -31,6 +31,18 @@ namespace CpmCidades.API.Controllers
         public int Alterar(CidadeDTO model)
         {
             return GetService<ICidadeRepository>().Alterar(model);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public bool Excluir(int id)
+        {
+            if (id > 0)
+            {
+                return GetService<ICidadeRepository>().Excluir(id);
+            }
+
+            return false;
         }
     }
 }

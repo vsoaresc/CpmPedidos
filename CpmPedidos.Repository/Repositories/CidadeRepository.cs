@@ -94,5 +94,33 @@ namespace CpmPedidos.Repository
 
             return 0;
         }
+        public bool Excluir(int id)
+        {
+            if (id <= 0)
+            {
+                return false;
+            }
+
+            var entity = DbContext.Cidades.Find(id);
+
+            if (entity == null)
+            {
+                return false;
+            }
+
+
+            try
+            {
+                DbContext.Cidades.Remove(entity);
+                DbContext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return false;
+        }
     }
 }
