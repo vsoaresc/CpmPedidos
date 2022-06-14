@@ -21,5 +21,13 @@ namespace CpmPedidos.API.Controllers
             var rep = (IPedidoRepository)_serviceProvider.GetService(typeof(IPedidoRepository));
             return rep.TicketMaximo();
         }
+
+        [HttpGet]
+        [Route("por-cliente")]
+        public dynamic PedidosClientes()
+        {
+            var rep = (IPedidoRepository)_serviceProvider.GetService(typeof(IPedidoRepository));
+            return rep.PedidosClientes();
+        }
     }
 }
