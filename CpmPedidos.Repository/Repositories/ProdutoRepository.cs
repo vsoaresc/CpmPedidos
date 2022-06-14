@@ -11,7 +11,7 @@ namespace CpmPedidos.Repository
 {
     public class ProdutoRepository : BaseRepository, IProdutoRepository
     {
-        private void OrdenarPorNome(IQueryable<Produto> query, string ordem)
+        private void OrdenarPorNome(ref IQueryable<Produto> query, string ordem)
         {
             if (string.IsNullOrEmpty(ordem) || ordem.ToUpper() == "ASC")
             {
@@ -32,7 +32,7 @@ namespace CpmPedidos.Repository
                 .Include(x => x.Categoria)
                 .Where(x => x.Ativo);
 
-            OrdenarPorNome(queryProduto, ordem);
+            OrdenarPorNome(ref queryProduto, ordem);
 
             var queryRetorno = queryProduto
                                 .Select(x => new
@@ -59,7 +59,7 @@ namespace CpmPedidos.Repository
                 .Skip(TamanhoPagina * (pagina - 1))
                 .Take(TamanhoPagina);
 
-            OrdenarPorNome(queryProduto, ordem);
+            OrdenarPorNome(ref queryProduto, ordem);
 
             var queryRetorno = queryProduto
                 .Select(x => new
@@ -81,8 +81,7 @@ namespace CpmPedidos.Repository
                 .Where(x => x.Ativo && (x.Nome.ToUpper().Contains(text.ToUpper()) || x.Descricao.ToUpper().Contains(text.ToUpper())))
                 .Count();
 
-            var qtdePaginas = (qtdeProdutos / TamanhoPagina);
-
+            var qtdePaginas = Math.Ceiling((decimal)qtdeProdutos / TamanhoPagina);
             if (qtdePaginas < 1)
             {
                 qtdePaginas = 1;
