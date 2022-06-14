@@ -63,5 +63,36 @@ namespace CpmPedidos.Repository
 
             return 0;
         }
+
+        public int Alterar(CidadeDTO model)
+        {
+            if(model.Id <= 0)
+            {
+                return 0;
+            }
+
+            var entity = DbContext.Cidades.Find(model.Id);
+            if (entity == null)
+            {
+                return 0;
+            }
+
+            entity.Nome = model.Nome;
+            entity.Uf = model.Uf;
+            entity.Ativo = model.Ativo;
+
+            try
+            {
+                DbContext.Cidades.Update(entity);
+                DbContext.SaveChanges();
+
+                return entity.Id;
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return 0;
+        }
     }
 }

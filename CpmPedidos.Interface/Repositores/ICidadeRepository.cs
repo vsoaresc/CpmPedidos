@@ -11,5 +11,6 @@ namespace CpmPedidos.Interface
     {
         dynamic Get();
         int Criar(CidadeDTO model);
+        public int Alterar(CidadeDTO model);
     }
 }
