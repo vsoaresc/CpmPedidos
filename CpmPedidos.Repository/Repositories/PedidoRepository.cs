@@ -46,7 +46,7 @@ namespace CpmPedidos.Repository
             return DbContext.Pedidos
                 .Where(x => x.CriadoEm.Date >= inicioMes && x.CriadoEm.Date <= finalMes)
                 .GroupBy(
-                    pedido =>  new { pedido.IdCliente, pedido.Cliente.Nome },
+                    pedido => new { pedido.IdCliente, pedido.Cliente.Nome },
                     (chave, pedidos) => new
                     {
                         Cliente = chave.Nome,
@@ -61,42 +61,57 @@ namespace CpmPedidos.Repository
             var ret = "";
             try
             {
-                var entity = new Pedido
+                using (var transaction = DbContext.Database.BeginTransaction())
                 {
-                    Numero = GetProximoNumero(),
-                    IdCliente = pedido.IdCliente,
-                    CriadoEm = DateTime.Now,
-                    Produtos = new List<ProdutoPedido>()
-                };
-
-                var valorTotal = 0m;
-
-                foreach (var prodPed in pedido.Produtos)
-                {
-                    var precoProduto = DbContext.Produtos
-                        .Where(x => x.Id == prodPed.IdProduto)
-                        .Select(x => x.Preco)
-                        .FirstOrDefault();
-
-                    if (precoProduto > 0)
+                    try
                     {
-                        valorTotal += prodPed.Quantidade + precoProduto;
+                        var entity = new Pedido
+                        {
+                            Numero = GetProximoNumero(),
+                            IdCliente = pedido.IdCliente,
+                            CriadoEm = DateTime.Now,
+                            Produtos = new List<ProdutoPedido>()
+                        };
+
+                        var valorTotal = 0m;
+
+                        foreach (var prodPed in pedido.Produtos)
+                        {
+                            var precoProduto = DbContext.Produtos
+                                .Where(x => x.Id == prodPed.IdProduto)
+                                .Select(x => x.Preco)
+                                .FirstOrDefault();
+
+                            if (precoProduto > 0)
+                            {
+                                valorTotal += prodPed.Quantidade + precoProduto;
+                            }
+
+                            entity.Produtos.Add(new ProdutoPedido
+                            {
+                                IdProduto = prodPed.IdProduto,
+                                Quantidade = prodPed.Quantidade,
+                                Preco = precoProduto,
+                            });
+                        }
+
+                        entity.ValorTotal = valorTotal;
+
+                        DbContext.Pedidos.Add(entity);
+
+                        DbContext.SaveChanges();
+
+                        transaction.Commit();
+
+                        ret = entity.Numero;
                     }
 
-                    entity.Produtos.Add(new ProdutoPedido
+                    catch (Exception ex)
                     {
-                        IdProduto = prodPed.IdProduto,
-                        Quantidade = prodPed.Quantidade,
-                        Preco = precoProduto,
-                    });
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
-
-                entity.ValorTotal = valorTotal;
-
-                DbContext.Pedidos.Add(entity);
-
-                DbContext.SaveChanges();
-
             }
             catch (Exception ex)
             {
