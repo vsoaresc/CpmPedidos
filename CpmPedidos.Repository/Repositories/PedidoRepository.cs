@@ -11,6 +11,19 @@ namespace CpmPedidos.Repository
 {
     public class PedidoRepository : BaseRepository, IPedidoRepository
     {
+        private string GetProximoNumero()
+        {
+            var ret = 1.ToString("00000");
+
+            var ultimoNumero = DbContext.Pedidos.Max(x => x.Numero);
+
+            if (!string.IsNullOrEmpty(ultimoNumero))
+            {
+                ret = (Convert.ToInt32(ultimoNumero) + 1).ToString("00000");
+            }
+
+            return ret;
+        }
         public PedidoRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
         }
@@ -41,6 +54,55 @@ namespace CpmPedidos.Repository
                         Total = pedidos.Sum(pedido => pedido.ValorTotal)
                     })
                 .ToList();
+        }
+
+        public string SalvarPedido(PedidoDTO pedido)
+        {
+            var ret = "";
+            try
+            {
+                var entity = new Pedido
+                {
+                    Numero = GetProximoNumero(),
+                    IdCliente = pedido.IdCliente,
+                    CriadoEm = DateTime.Now,
+                    Produtos = new List<ProdutoPedido>()
+                };
+
+                var valorTotal = 0m;
+
+                foreach (var prodPed in pedido.Produtos)
+                {
+                    var precoProduto = DbContext.Produtos
+                        .Where(x => x.Id == prodPed.IdProduto)
+                        .Select(x => x.Preco)
+                        .FirstOrDefault();
+
+                    if (precoProduto > 0)
+                    {
+                        valorTotal += prodPed.Quantidade + precoProduto;
+                    }
+
+                    entity.Produtos.Add(new ProdutoPedido
+                    {
+                        IdProduto = prodPed.IdProduto,
+                        Quantidade = prodPed.Quantidade,
+                        Preco = precoProduto,
+                    });
+                }
+
+                entity.ValorTotal = valorTotal;
+
+                DbContext.Pedidos.Add(entity);
+
+                DbContext.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return ret;
         }
     }
 }

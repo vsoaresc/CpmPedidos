@@ -11,5 +11,6 @@ namespace CpmPedidos.Interface
     {
         decimal TicketMaximo();
         dynamic PedidosClientes();
+        string SalvarPedido(PedidoDTO pedidoDTO);
     }
 }

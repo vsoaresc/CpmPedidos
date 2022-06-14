@@ -108,7 +108,6 @@ namespace CpmPedidos.Repository
                 return false;
             }
 
-
             try
             {
                 DbContext.Cidades.Remove(entity);

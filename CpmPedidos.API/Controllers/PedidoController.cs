@@ -29,5 +29,12 @@ namespace CpmPedidos.API.Controllers
             var rep = (IPedidoRepository)_serviceProvider.GetService(typeof(IPedidoRepository));
             return rep.PedidosClientes();
         }
+
+        [HttpPost]
+        [Route("")]
+        public string SalvarPedido(PedidoDTO pedido)
+        {
+            return GetService<IPedidoRepository>().SalvarPedido(pedido);
+        }
     }
 }
